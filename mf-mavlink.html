@@ -1,0 +1,61 @@
+<script type="text/javascript">
+    RED.nodes.registerType('MAVlink',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            version: {value:"v1.0" }
+        },
+        inputs:1,
+        outputs:1,
+        icon: "drone.png",
+        label: function() {
+            return this.name||"MAVlink";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="MAVlink">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-version" style="width:auto"><i class="icon-tag"></i> MAVlink protocol version</label>
+        <select id="node-input-version">
+          <option select="selected" id="v1.0">v1.0</option>
+          <option id="v0.9">v0.9</option>
+          <option id="v2.0">v2.0</option>
+        </select>
+      </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="MAVlink">
+    <p>A node that convert messages to or from MAVlink protocol
+    if the input is JSON, it will output MAVlink style message, that can be sent to UDP, Serial...
+    if the input is a MAVlink buffer, it will output a JSON message accordingly containing all the paramaters you are listening to.
+    To set which parameters to listen, you can input a JSON array containing all the messages.
+
+    To inject some message, use a template node with this message format (You need a JSON converter between the template node and the MAVlink node) :
+
+    <pre>
+    {
+    "name":"COMMAND_LONG",
+    "parameters":{
+        "target_system" : 1,
+        "target_component" : 0,
+        "command" : 22,
+        "confirmation" : 1,
+        "param1": 1,
+        "param2": "",
+        "param3": "",
+        "param4": 0,
+        "param5": "",
+        "param6": "",
+        "param7": 40
+    }
+    }
+    </pre>
+    </p>
+</script>
