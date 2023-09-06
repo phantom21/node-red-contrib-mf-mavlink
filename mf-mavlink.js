@@ -6,7 +6,7 @@ module.exports = function(RED) {
     var node = this;
     this.version = config.version;
     //TODO set the version of the protocol in the node...
-    var myMAV = new mavlink(1, 1, this.version, ["common","pixhawk"]);
+    var myMAV = new mavlink(255, 190, this.version, ["common","pixhawk"]);
     var messagesListened = []; // a list of message that we want to listen to
 
     this.on('input', function(msg) {
