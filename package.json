@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-mf-mavlink",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "A MAVLink converter for Node-RED",
   "dependencies": {
     "mavlink-2": "^1.0.5"
