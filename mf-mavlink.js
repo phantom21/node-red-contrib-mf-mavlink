@@ -5,8 +5,10 @@ module.exports = function(RED) {
     RED.nodes.createNode(this, config);
     var node = this;
     this.version = config.version;
+	this.systemid = config.systemid;
+	this.componentid = config.componentid;
     //TODO set the version of the protocol in the node...
-    var myMAV = new mavlink(255, 190, this.version, ["common","pixhawk"]);
+    var myMAV = new mavlink(this.systemid, this.componentid, this.version, ["common","pixhawk"]);
     var messagesListened = []; // a list of message that we want to listen to
 
     this.on('input', function(msg) {
@@ -22,36 +24,13 @@ module.exports = function(RED) {
 		console.log(message);
 		node.send(msg);
 	});*/
-	myMAV.on('ATTITUDE', function(message, fields) {
+	myMAV.on('parse_message', function(message_name, message, fields) {
 		//console.log(fields);
-		var msg = {payload:{}, name: 'ATTITUDE'};
+		var msg = {payload:{}, name: ""};
+		msg.name = message_name;
 		msg.payload = fields;
 		node.send(msg);
 	});
-	myMAV.on('GPS_RAW_INT', function(message, fields) {
-		//console.log(fields);
-		var msg = {payload:{}, name: 'GPS_RAW_INT'};
-		msg.payload = fields;
-		node.send(msg);
-	});	
-	myMAV.on('VFR_HUD', function(message, fields) {
-		console.log(fields);
-		var msg = {payload:{}, name: 'VFR_HUD'};
-		msg.payload = fields;
-		node.send(msg);
-	});	
-	/*myMAV.on('HEARTBEAT', function(message, fields) {
-		console.log(fields);
-		var msg = {payload:{}};
-		msg.payload = fields;
-		node.send(msg);
-	});
-	myMAV.on('COMMAND_LONG', function(message, fields) {
-		console.log(fields);
-		var msg = {payload:{}};
-		msg.payload = fields;
-		node.send(msg);
-	});*/
 	//listen for sequenceError
 	myMAV.on('sequenceError', function(message) {
 		//this.log('sequenceError');
@@ -65,10 +44,7 @@ module.exports = function(RED) {
 		node.send(msg);
 	});
         myMAV.parse(msg.payload);
-        myMAV.removeAllListeners(['ATTITUDE']);
-        myMAV.removeAllListeners(['GPS_RAW_INT']);		
-        myMAV.removeAllListeners(['VFR_HUD']);		
-        myMAV.removeAllListeners(['message']);
+		myMAV.removeAllListeners(['parse_message']);
         myMAV.removeAllListeners(['sequenceError']);
         myMAV.removeAllListeners(['checksumFail']);
       } else if (Array.isArray(msg.payload)) { //is not a buffer if its an array we store messages that MAVlink needs to listen to
