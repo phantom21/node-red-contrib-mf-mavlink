@@ -1,0 +1,10 @@
+{
+    "MAVlink" : {
+        "label": {
+            "Name": "Имя",
+            "Protocol": "Протокол",
+            "SysID": "System ID",
+            "CompID": "Component ID"
+        }
+    }
+}

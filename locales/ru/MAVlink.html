@@ -1,0 +1,70 @@
+
+
+<script type="text/x-red" data-help-name="MAVlink">
+    <p>Преобразует сообщения в протокол MAVLink или из него. Если входными данными является JSON, он выведет сообщение в формате MAVLink, 
+	которое может быть отправлено далее через интерфейсы UDP, COM ... Если входными данными является буфер MAVLink, он выведет сообщение JSON, 
+	содержащее все параметры, которые вы прослушиваете. Чтобы задать, какие параметры прослушивать, вы можете ввести массив JSON, содержащий необходимые сообщения.
+
+    Для отправки сообщения необходимо использовать следующий формат (Необходим JSON конвертер между для передачи в MAVlink node) :
+
+    <pre>
+    {
+    "name":"COMMAND_LONG",
+    "parameters":{
+        "target_system" : 1,
+        "target_component" : 0,
+        "command" : 22,
+        "confirmation" : 1,
+        "param1": 1,
+        "param2": "",
+        "param3": "",
+        "param4": 0,
+        "param5": "",
+        "param6": "",
+        "param7": 40
+    }
+    }
+    </pre>
+	
+	При подключении Pixawk для получения периодической телеметрии его необходимо инициализировать.
+	Для этого необходимо послать в него два пакета.
+	
+	1 пакет (в формате версии протокола 1.0):
+	
+	<pre>
+	{
+		"name": "HEARTBEAT",
+		"parameters": {
+			"type": 0,
+			"autopilot": 0,
+			"base_mode": 0,
+			"custom_mode": 3221751296,
+			"system_status": 4,
+			"mavlink_version": 3
+		}
+	}	
+	</pre>
+
+	2 пакет (в формате версии протокола 2.0):
+	
+	<pre>
+	{
+		"name": "COMMAND_LONG",
+		"parameters": {
+			"target_system": 0,
+			"target_component": 128,
+			"command": 511,
+			"confirmation": 0,
+			"param1": 500000,
+			"param2": 500000,
+			"param3": 0,
+			"param4": 0,
+			"param5": 0,
+			"param6": 0,
+			"param7": 0
+		}
+	}	
+	</pre>
+	
+    </p>
+</script>

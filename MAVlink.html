@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    RED.nodes.registerType('MAVlink',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            version: {value:"v1.0" },
+			systemid: {value: "1" },
+			componentid: {value: "1"}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "drone.png",
+        label: function() {
+            return this.name||"MAVlink";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="MAVlink">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> <span data-i18n="MAVlink.label.Name"></span></label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-version"><i class="icon-tag"></i> <span data-i18n="MAVlink.label.Protocol"></label>
+        <select id="node-input-version">
+          <option select="selected" id="v1.0">v1.0</option>
+          <option id="v0.9">v0.9</option>
+          <option id="v2.0">v2.0</option>
+        </select>
+      </div>
+    <div class="form-row">
+        <label for="node-input-systemid"><i class="icon-tag"></i> <span data-i18n="MAVlink.label.SysID"></span></label>
+		<input type="text" id="node-input-systemid">
+    </div>
+    <div class="form-row">
+        <label for="node-input-componentid"><i class="icon-tag"></i> <span data-i18n="MAVlink.label.CompID"></label>
+		<input type="text" id="node-input-componentid">
+    </div>
+
+</script>
+
